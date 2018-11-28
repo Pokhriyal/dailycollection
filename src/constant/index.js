@@ -1,1 +1,1 @@
-export const baseUrl = "http://10.95.6.16:3000/";
+export const baseUrl = "https://dailycoll-api.herokuapp.com/";
