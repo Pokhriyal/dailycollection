@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Upload, Modal } from 'antd';
+import axios from 'axios';
+import {baseUrl} from '../../constant';
+
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
-
-
-
 
 
 class AddCustomer extends Component {
@@ -25,12 +24,36 @@ class AddCustomer extends Component {
     };
 
     handleSubmit = (e) => {
+
+       
+
         e.preventDefault();
+        let root=this;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-            console.log('Received values of form: ', values);
+                axios.post(`${baseUrl}addCustomer`, {
+
+                "name":values.name,
+                "tenantId":1,
+                "address":values.address,
+                "image":values.customerpic,
+                "mobile":values.phone,
+                "nickName": values.nickname,
+                "email": values.email,
+                "agreement":values.agreement,
+                "prefix": values.prefix
+                })
+
+                .then(function (response) {
+                root.props.history.push("/");
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
+                console.log('Received values of form: ', values);
             }
         });
+
     }
 
     handleCancel = () => this.setState({ previewVisible: false })
@@ -92,7 +115,7 @@ class AddCustomer extends Component {
         // ));
 
         return (
-            <div>
+            <div className="wrapper_class">
                 <Form onSubmit={this.handleSubmit}>
 
                     <FormItem
@@ -136,6 +159,19 @@ class AddCustomer extends Component {
                     >
                     {getFieldDecorator('nickname', {
                         rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+                    })(
+                        <Input />
+                    )}
+                    </FormItem>
+
+                    <FormItem
+                    {...formItemLayout}
+                    label="Address"
+                    >
+                    {getFieldDecorator('address', {
+                        rules: [{
+                        required: true, message: 'Please input your Address!',
+                        }],
                     })(
                         <Input />
                     )}

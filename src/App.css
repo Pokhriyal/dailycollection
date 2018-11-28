@@ -1,9 +1,87 @@
 @import '~antd/dist/antd.css';
+.wrapper_class {
+  padding: 15px;
+}
+.header {
+  min-height: 56px;
+  background: #5d64c5;
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.header span a {
+  cursor: pointer;
+  color: #edeef9;
+  padding: 12px;
+}
+.header .home {
+  
+}
+
+.header .adduser {
+margin-left: auto;
+}
+
 
 .demo-loadmore-list {
   min-height: 350px;
 }
+.list_view 
+{
+  padding: 15px;
+}
+.list_view h4 span {
+  font-weight: normal;
+}
+.list_link {
+  padding: 8px 6px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 500;
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #cecdcd;
+  display: block;
+}
+.customer_link .ant-list-item{
+  padding: 0 !important;
+}
 
+
+.customers_loan ul {
+  margin: 5px 0 0 0;
+  width: 100%;
+}
+.customers_loan > ul li {
+  width: 50%;
+}
+
+.customers_loan_block {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+}
+
+.customers_loan_block span {
+  margin-left: auto;
+  font-size: 12px;
+}
+
+
+
+
+
+.installment_summary {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.installment_summary small {
+  margin-left: auto;
+}
 
 
 .App {
