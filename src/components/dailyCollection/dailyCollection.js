@@ -88,45 +88,57 @@ radioChange = (e) =>{
         },
         };
         return (
-            <div className="wrapper_class">
-                <Form onSubmit={this.handleSubmit} className="login-form">
+            <div>
+                
+                <div className="header">
+                    <span class="home">
+                        Installment
+                    </span>
+                </div>
 
-                    <FormItem>
-                    {getFieldDecorator('installmentAmount', {
-                        rules: [{ required: true, message: 'Please input your Installment Amount!' }],
-                    })(
-                        <Input placeholder="Installment" />
-                    )}
-                    </FormItem>
+                <div className="wrapper_class">
+                    <Form onSubmit={this.handleSubmit} className="login-form">
 
-                    {/* <FormItem>
-                    {getFieldDecorator('penalty', {
-                        rules: [{ required: true, message: 'Please input your Penalty Amount!' }],
-                    })(
-                        <Input placeholder="Penalty" />
-                    )}
-                    </FormItem> */}
-
-                    <FormItem
-                        {...formItemLayout}
-                        label="Installment Type"
-                    >
-                        {getFieldDecorator('installmentType')(
-                        <RadioGroup onChange={this.radioChange } >
-                            <Radio value="1">Installment</Radio>
-                            <Radio value="2">Penalty</Radio>
-                            <Radio value="3">Not Received</Radio>
-                        </RadioGroup>
+                        <FormItem>
+                        {getFieldDecorator('installmentAmount', {
+                            rules: [{ required: true, message: 'Please input your Installment Amount!' }],
+                        })(
+                            <Input placeholder="Installment" />
                         )}
-                    </FormItem>
+                        </FormItem>
 
-                    <FormItem>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        Submit
-                    </Button>
-                    </FormItem>
-                </Form>
+                        {/* <FormItem>
+                        {getFieldDecorator('penalty', {
+                            rules: [{ required: true, message: 'Please input your Penalty Amount!' }],
+                        })(
+                            <Input placeholder="Penalty" />
+                        )}
+                        </FormItem> */}
+
+                        <FormItem
+                            {...formItemLayout}
+                            label="Installment Type"
+                        >
+                            {getFieldDecorator('installmentType')(
+                            <RadioGroup onChange={this.radioChange } >
+                                <Radio value="1">Installment</Radio>
+                                <Radio value="2">Penalty</Radio>
+                                <Radio value="3">Not Received</Radio>
+                            </RadioGroup>
+                            )}
+                        </FormItem>
+
+                        <FormItem>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Submit
+                        </Button>
+                        </FormItem>
+                    </Form>
+                </div>
+
             </div>
+
+            
         );
     }
 }

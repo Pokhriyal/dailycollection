@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Upload, Modal } from 'antd';
 import axios from 'axios';
 import {baseUrl} from '../../constant';
-import { Route, Switch, Link, Redirect } from 'react-router-dom';
 
 
 const FormItem = Form.Item;
@@ -14,39 +13,27 @@ class AddCustomer extends Component {
     state = {
     // confirmDirty: false,
     // autoCompleteResult: [],
-    previewVisible: false,
-    previewImage: '',
-    fileList: [{
-      uid: '-1',
-      name: 'xxx.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    }],
     };
 
     handleSubmit = (e) => {
 
-       
-
+    
         e.preventDefault();
         let root=this;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                axios.post(`${baseUrl}addCustomer`, {
+                axios.post(`${baseUrl}addTenant`, {
 
                 "name":values.name,
-                "tenantId":1,
-                "address":values.address,
-                "image":values.customerpic,
-                "mobile":values.phone,
-                "nickName": values.nickname,
-                "email": values.email,
-                "agreement":values.agreement,
-                "prefix": values.prefix
+                "address": values.address,
+                "gst": values.gst,
+                "isActive": 1,
+                "mobile": values.phone,
+                "pwd": values.password
                 })
 
                 .then(function (response) {
-                root.props.history.push("/home");
+                root.props.history.push("/");
                 })
                 .catch(function (error) {
                 console.log(error);
@@ -57,25 +44,10 @@ class AddCustomer extends Component {
 
     }
 
-    handleCancel = () => this.setState({ previewVisible: false })
 
-    handlePreview = (file) => {
-        this.setState({
-        previewImage: file.url || file.thumbUrl,
-        previewVisible: true,
-        });
-    }
-
-    handleChange = ({ fileList }) => this.setState({ fileList })
 
     render() {
-        const { previewVisible, previewImage, fileList } = this.state;
-        const uploadButton = (
-        <div>
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-        </div>
-        );
+
 
         const { getFieldDecorator } = this.props.form;
         // const { autoCompleteResult } = this.state;
@@ -116,21 +88,7 @@ class AddCustomer extends Component {
         // ));
 
         return (
-            <div>
-                <div className="header">
-                    <span class="home">
-                        <Link to='/home'><Icon style={{ fontSize: '24px', color: '#fff' }}  type="arrow-left" /></Link>
-                        <Link to='/addcustomer'>Add Customer</Link>
-                    </span>
-
-                    <span class="adduser">
-                    {/* <Link to='/addcustomer'><Icon style={{ fontSize: '24px', color: '#fff' }} type="plus" /></Link> */}
-                    <Link to='/'><Icon style={{ fontSize: '24px', color: '#fff' }} type="poweroff" /></Link>
-                    </span>
-                </div>
-
-                <div className="wrapper_class">
-
+            <div className="wrapper_class">
                 <Form onSubmit={this.handleSubmit}>
 
                     <FormItem
@@ -146,38 +104,6 @@ class AddCustomer extends Component {
                     )}
                     </FormItem>
 
-                    <FormItem
-                    {...formItemLayout}
-                    label="E-mail"
-                    >
-                    {getFieldDecorator('email', {
-                        rules: [{
-                        type: 'email', message: 'The input is not valid E-mail!',
-                        }, {
-                        required: true, message: 'Please input your E-mail!',
-                        }],
-                    })(
-                        <Input />
-                    )}
-                    </FormItem>
-
-                    <FormItem
-                    {...formItemLayout}
-                    label={(
-                        <span>
-                        Nickname&nbsp;
-                        <Tooltip title="What do you want others to call you?">
-                            <Icon type="question-circle-o" />
-                        </Tooltip>
-                        </span>
-                    )}
-                    >
-                    {getFieldDecorator('nickname', {
-                        rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-                    })(
-                        <Input />
-                    )}
-                    </FormItem>
 
                     <FormItem
                     {...formItemLayout}
@@ -191,6 +117,44 @@ class AddCustomer extends Component {
                         <Input />
                     )}
                     </FormItem>
+
+
+                    <FormItem
+                    {...formItemLayout}
+                    label="GST"
+                    >
+                    {getFieldDecorator('gst', {
+                       
+                    })(
+                        <Input />
+                    )}
+                    </FormItem>
+
+                    <FormItem
+                    {...formItemLayout}
+                    label="Phone Number"
+                    >
+                    {getFieldDecorator('phone', {
+                        rules: [{ required: true, message: 'Please input your phone number!' }],
+                    })(
+                        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                    )}
+                    </FormItem>
+
+                    <FormItem
+                    {...formItemLayout}
+                    label="Password"
+                    >
+                    {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
+                    })(
+                        <Input type="password" placeholder="Password" />
+                    )}
+                    </FormItem>
+
+                    
+
+                    
                     {/* <FormItem
                     {...formItemLayout}
                     label="Habitual Residence"
@@ -202,16 +166,7 @@ class AddCustomer extends Component {
                         <Cascader options={residences} />
                     )}
                     </FormItem> */}
-                    <FormItem
-                    {...formItemLayout}
-                    label="Phone Number"
-                    >
-                    {getFieldDecorator('phone', {
-                        rules: [{ required: true, message: 'Please input your phone number!' }],
-                    })(
-                        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-                    )}
-                    </FormItem>
+                    
                     {/* <FormItem
                     {...formItemLayout}
                     label="Website"
@@ -249,30 +204,6 @@ class AddCustomer extends Component {
                     </FormItem> */}
 
                     <FormItem {...tailFormItemLayout}>
-
-                    {getFieldDecorator('customerpic', {
-                        rules: [{ required: true, message: 'Please input your Photo!' }],
-                    })(
-                        <div className="clearfix">
-                            <Upload
-                            action="//jsonplaceholder.typicode.com/posts/"
-                            listType="picture-card"
-                            fileList={fileList}
-                            onPreview={this.handlePreview}
-                            onChange={this.handleChange}
-                            >
-                            {fileList.length >= 3 ? null : uploadButton}
-                            </Upload>
-                            <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                            <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                            </Modal>
-                        </div>
-                    )}
-                   
-                    
-                    </FormItem>
-
-                    <FormItem {...tailFormItemLayout}>
                     {getFieldDecorator('agreement', {
                         valuePropName: 'checked',
                     })(
@@ -283,7 +214,6 @@ class AddCustomer extends Component {
                     <Button type="primary" htmlType="submit">Register</Button>
                     </FormItem>
                 </Form>
-                </div>
             </div>
         );
     }

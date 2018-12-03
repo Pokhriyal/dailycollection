@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import { Button } from 'antd';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link, Redirect } from 'react-router-dom';
 import './App.css';
 
 
@@ -11,6 +11,8 @@ import DailyCollection from './components/dailyCollection/dailyCollection';
 import CustomerLoan from './components/customerLoan/customerLoan';
 import ViewInstallment from './components/viewInstallment/viewInstallment';
 import AddLoan from './components/addLoan/addLoan';
+import Login from './components/login/login';
+import Register from './components/register/register';
 
 const Home = () => <div>Home</div>
 const About = () => <div>About</div>
@@ -35,7 +37,6 @@ const NotFound = () => (
 class App extends Component {
   state = {
     singleLoanDetail:{
-
     }
   }
   changeState (stateName , value) {
@@ -46,10 +47,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div className="header">
-          <span class="home"><Link to='/'>Home</Link></span>
-          <span class="adduser"><Link to='/addcustomer'>Add</Link></span>
-        </div>
+        
         
         
         {/* <Link to='/viewinstallment'>View Installment</Link>
@@ -58,12 +56,14 @@ class App extends Component {
         <Link to='/customerloan'>Customer Loan</Link> */}
 
         <Switch>
-          <Route exact path='/' component={CustomerList}/>
+          <Route exact path='/' component={Login}/>
+          <Route exact path='/register' component={Register}/>
+          <Route exact path='/home' component={CustomerList}/>
           <Route path='/addcustomer' component={AddCustomer}/>
           <Route path='/addloan/:customerId' component={AddLoan}/>
-          <Route path='/viewinstallment/:loanId' component={ViewInstallment}/>
+          <Route path='/viewinstallment/:loanId'  render = {(props)=><ViewInstallment {...props} loanDetail={this.state.singleLoanDetail}/>} />
           <Route path='/collection/:loanId' render = {(props)=><DailyCollection {...props} loanDetail={this.state.singleLoanDetail}/>} />
-      <Route path='/customerloan/:customerId'  render = {(props)=><CustomerLoan {...props} changeState= {this.changeState.bind(this)}/>} />
+          <Route path='/customerloan/:customerId'  render = {(props)=><CustomerLoan {...props} changeState= {this.changeState.bind(this)}/>} />
           <Route component={NotFound}/>
         </Switch>
       </div>

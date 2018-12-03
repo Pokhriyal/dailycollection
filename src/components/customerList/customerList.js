@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { List, Avatar, Button, Skeleton } from 'antd';
+import { List, Icon, Input, notification } from 'antd';
+import { Route, Switch, Link, Redirect } from 'react-router-dom';
 
 import {baseUrl} from '../../constant'
 import reqwest from 'reqwest';
@@ -10,16 +11,18 @@ class CustomerList extends Component {
   
     state = {
         // initLoading: true,
-        // loading: false,
+        loading: true,
         // data: [],
         // list: [],
         customers: [],
+        items: []
         }
   
 
     componentDidMount() {
         this.getPlan = this.getPlan.bind(this)
         this.addLoan = this.addLoan.bind(this)
+        this.filterList = this.filterList.bind(this)
         reqwest({
             url: `${baseUrl}getCustomers/1`,
             type: 'json',
@@ -27,7 +30,22 @@ class CustomerList extends Component {
             contentType: 'application/json',
             success: (res) => {
                 console.log(res)
-                this.setState({customers:  res.result.rows})
+                this.setState({
+                    customers: res.result.rows,
+                    items:  res.result.rows,
+                    loading:false
+                })
+                // root.props.history.push("/home");
+                if(res.error)
+                {
+                   
+                    notification['error']({
+                        message: 'Login',
+                        description: `Invalid Username and Password`,
+                    });
+                } else{
+                    this.props.history.push("/home");
+                }
             },
           });
     }
@@ -46,29 +64,66 @@ class CustomerList extends Component {
         this.props.history.push("/addloan/" + e.target.id )
     }
 
+    filterList(event){
+        
+        var updatedList = this.state.customers;
+        updatedList = updatedList.filter(function(item){
+          return item.customer_name.toLowerCase().search(
+            event.target.value.toLowerCase()) !== -1;
+        });
+        this.setState({items: updatedList});
+      }
+
     render() {
-        const { customers } = this.state;
-      
+        const { items } = this.state;
+        const Search = Input.Search;
         return (
-        <List
-            className="demo-loadmore-list customer_link"
-            // loading={initLoading}
-            itemLayout="horizontal"
-            // loadMore={loadMore}
-            dataSource={customers}
-            renderItem={
-                item => (
-                <List.Item actions={[<a className="list_link" onClick={this.getPlan} id={item.customer_id} >Loans</a>, <a  className="list_link" onClick={this.addLoan} id={item.customer_id}>Add Loan</a>]}>
-                    <div className="list_view">
-                        <h4>
-                        {item.customer_name} <br/>
-                        <span>{item.customer_address}</span>
-                        </h4>
-                    </div>
-                    
-                </List.Item>
-            )}
-        />
+            <div>
+                <div className="header">
+                    <span class="home"><Link to='/home'>Customers List</Link></span>
+
+                    <span class="adduser">
+                    <Link to='/addcustomer'><Icon style={{ fontSize: '24px', color: '#fff' }} type="plus" /></Link>
+                    <Link to='/'><Icon style={{ fontSize: '24px', color: '#fff' }} type="poweroff" /></Link>
+                    </span>
+                </div>
+
+                <div>
+                    <Search
+                    placeholder="input search text"
+                    onChange={this.filterList}
+                    size="large"
+                    />
+                </div>
+
+                <div>
+                {this.state.loading? <div className="gl_loader" > <Icon type="loading" style={{ fontSize: 24 }} spin /> </div> : null }
+                </div>
+             
+                <List
+                    className="demo-loadmore-list customer_link"
+                    // loading={initLoading}
+                    itemLayout="horizontal"
+                    // loadMore={loadMore}
+                    dataSource={items.sort(function(a, b){
+                        if(a.customer_name < b.customer_name) { return -1; }
+                        if(a.customer_name > b.customer_name) { return 1; }
+                        return 0;
+                    })}
+                    renderItem={
+                        item => (
+                        <List.Item actions={[<a className="list_link" onClick={this.getPlan} id={item.customer_id} >Loans</a>, <a  className="list_link" onClick={this.addLoan} id={item.customer_id}>Add Loan</a>]}>
+                            <div className="list_view">
+                                <h4>
+                                {item.customer_name} <br/>
+                                <span>{item.customer_address}</span>
+                                </h4>
+                            </div>
+                            
+                        </List.Item>
+                    )}
+                />
+        </div>
         );
     }
 }

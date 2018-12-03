@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Upload, Modal } from 'antd';
+import { Form, Input, Select, Button } from 'antd';
 import axios from 'axios';
 import {baseUrl} from '../../constant';
 
