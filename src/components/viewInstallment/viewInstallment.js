@@ -106,7 +106,7 @@ class ViewInstallment extends Component {
                             this.state.loans.map((loan, index)=> {
                                return( <tr style={typeObj[loan.installment_type]}>
                                     <td>{index +1}</td>
-                                    <td>{moment(loan.date_time).calendar()}</td>
+                                    <td>{moment(loan.date_time).format('DD/MM/YYYY')}</td>
                                     <td>{loan.installment_type===1 ? loan.amount : '-'}</td>
                                     <td>{loan.installment_type===2 ? loan.amount : '-'}</td>
                                     <td>{loan.installment_type===3 ? loan.amount : '-'}</td>

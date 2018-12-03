@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox, Radio } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Radio, DatePicker  } from 'antd';
 import axios from 'axios';
+import moment from 'moment';
 import {baseUrl} from '../../constant';
 
 const FormItem = Form.Item;
@@ -46,7 +47,8 @@ radioChange = (e) =>{
                 "loanId":this.props.match.params.loanId,
                 "tenantId":1,
                 "amount":values.installmentAmount,
-                "installmentType":values.installmentType
+                "installmentType":values.installmentType,
+                "installmentDate":values.installmentDate
                 })
 
                 .then(function (response) {
@@ -63,6 +65,7 @@ radioChange = (e) =>{
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const dateFormat = 'DD/MM/YYYY';
         // const { autoCompleteResult } = this.state;
 
         const formItemLayout = {
@@ -89,7 +92,7 @@ radioChange = (e) =>{
         };
         return (
             <div>
-                
+
                 <div className="header">
                     <span class="home">
                         Installment
@@ -127,7 +130,14 @@ radioChange = (e) =>{
                             </RadioGroup>
                             )}
                         </FormItem>
-
+                        <FormItem 
+                        {...formItemLayout}
+                            label="Installment Date"
+                        >
+                        {getFieldDecorator('installmentDate')(
+                            <DatePicker defaultValue={moment()} format={dateFormat} />
+                        )}
+                        </FormItem>
                         <FormItem>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Submit
