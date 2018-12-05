@@ -48,7 +48,8 @@ radioChange = (e) =>{
                 "tenantId":1,
                 "amount":values.installmentAmount,
                 "installmentType":values.installmentType,
-                "installmentDate":values.installmentDate
+                "installmentDate":values.installmentDate,
+                "sendMsg":values.msg
                 })
 
                 .then(function (response) {
@@ -138,6 +139,15 @@ radioChange = (e) =>{
                             <DatePicker defaultValue={moment()} format={dateFormat} />
                         )}
                         </FormItem>
+
+                        <FormItem {...tailFormItemLayout}>
+                        {getFieldDecorator('msg', {
+                            valuePropName: 'checked',
+                        })(
+                            <Checkbox>Send SMS</Checkbox>
+                        )}
+                        </FormItem>
+
                         <FormItem>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Submit
