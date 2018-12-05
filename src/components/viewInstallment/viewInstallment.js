@@ -71,7 +71,7 @@ class ViewInstallment extends Component {
                 {
                     penaltyTotal+=obj.amount
                 }
-        } 
+        }
         return (
             <div>
 
