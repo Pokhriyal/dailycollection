@@ -9,19 +9,11 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 
-class AddCustomer extends Component {
+class UpdateCustomer extends Component {
 
     state = {
     // confirmDirty: false,
     // autoCompleteResult: [],
-    previewVisible: false,
-    previewImage: '',
-    fileList: [{
-      uid: '-1',
-      name: 'xxx.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    }],
     };
 
     handleSubmit = (e) => {
@@ -32,10 +24,11 @@ class AddCustomer extends Component {
         let root=this;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                axios.post(`${baseUrl}addCustomer`, {
+                axios.post(`${baseUrl}updateCustomer`, {
 
                 "name":values.name,
                 "tenantId":1,
+                "customerId":this.props.selectedCustomer.customer_id,
                 "address":values.address,
                 "image":"",
                 "mobile":values.phone,
@@ -120,7 +113,7 @@ class AddCustomer extends Component {
                 <div className="header">
                     <span class="home">
                         <Link to='/home'><Icon style={{ fontSize: '24px', color: '#fff' }}  type="arrow-left" /></Link>
-                        <Link to='/addcustomer'>Add Customer</Link>
+                        <Link to='/addcustomer'>Update Customer</Link>
                     </span>
 
                     <span class="adduser">
@@ -138,8 +131,9 @@ class AddCustomer extends Component {
                     label="Name"
                     >
                     {getFieldDecorator('name', {
+                        initialValue: this.props.selectedCustomer.customer_name,
                         rules: [{
-                        required: true, message: 'Please input your Name!',  whitespace: true
+                        required: true, message: 'Please input your Name!',  whitespace: true 
                         }],
                     })(
                         <Input />
@@ -151,6 +145,7 @@ class AddCustomer extends Component {
                     label="E-mail"
                     >
                     {getFieldDecorator('email', {
+                        initialValue: this.props.selectedCustomer.customer_email,
                         rules: [{
                         type: 'email', message: 'The input is not valid E-mail!',
                         }, {
@@ -173,6 +168,7 @@ class AddCustomer extends Component {
                     )}
                     >
                     {getFieldDecorator('nickname', {
+                        initialValue: this.props.selectedCustomer.customer_nickname,
                         rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
                     })(
                         <Input />
@@ -184,6 +180,7 @@ class AddCustomer extends Component {
                     label="Address"
                     >
                     {getFieldDecorator('address', {
+                        initialValue: this.props.selectedCustomer.customer_address,
                         rules: [{
                         required: true, message: 'Please input your Address!',
                         }],
@@ -207,6 +204,7 @@ class AddCustomer extends Component {
                     label="Phone Number"
                     >
                     {getFieldDecorator('phone', {
+                        initialValue: this.props.selectedCustomer.customer_mobile,
                         rules: [{ required: true, message: 'Please input your phone number!' }],
                     })(
                         <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
@@ -280,7 +278,7 @@ class AddCustomer extends Component {
                     )}
                     </FormItem> */}
                     <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
+                    <Button type="primary" htmlType="submit">Update</Button>
                     </FormItem>
                 </Form>
                 </div>
@@ -289,7 +287,7 @@ class AddCustomer extends Component {
     }
 }
 
-const WrappedRegistrationForm = Form.create()(AddCustomer);
+const WrappedRegistrationForm = Form.create()(UpdateCustomer);
 
 
 

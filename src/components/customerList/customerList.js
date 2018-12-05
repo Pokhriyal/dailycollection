@@ -23,6 +23,7 @@ class CustomerList extends Component {
         this.getPlan = this.getPlan.bind(this)
         this.addLoan = this.addLoan.bind(this)
         this.filterList = this.filterList.bind(this)
+        this.updateDetail = this.updateDetail.bind(this)
         reqwest({
             url: `${baseUrl}getCustomers/1`,
             type: 'json',
@@ -74,6 +75,15 @@ class CustomerList extends Component {
         this.setState({items: updatedList});
       }
 
+    updateDetail(e){
+        e.persist()
+        console.log(e.currentTarget);
+        let obj = this.state.customers.filter((customer)=>customer.customer_id == e.currentTarget.id )
+
+        this.props.changeState("selectedCustomer" , obj[0] )
+        this.props.history.push(`/updatecustomer`)
+    }
+
     render() {
         const { items } = this.state;
         const Search = Input.Search;
@@ -114,10 +124,12 @@ class CustomerList extends Component {
                         item => (
                         <List.Item actions={[<a className="list_link" onClick={this.getPlan} id={item.customer_id} >Loans</a>, <a  className="list_link" onClick={this.addLoan} id={item.customer_id}>Add Loan</a>]}>
                             <div className="list_view">
+                            <a onClick={this.updateDetail} id={item.customer_id} style={{display:'block'}}>
                                 <h4>
-                                {item.customer_name} <br/>
+                                {item.customer_name}
                                 <span>{item.customer_address}</span>
                                 </h4>
+                                </a>
                             </div>
                             
                         </List.Item>

@@ -13,6 +13,7 @@ import ViewInstallment from './components/viewInstallment/viewInstallment';
 import AddLoan from './components/addLoan/addLoan';
 import Login from './components/login/login';
 import Register from './components/register/register';
+import UpdateCustomer from './components/updateCustomer/updateCustomer';
 
 const Home = () => <div>Home</div>
 const About = () => <div>About</div>
@@ -37,6 +38,9 @@ const NotFound = () => (
 class App extends Component {
   state = {
     singleLoanDetail:{
+    },
+    selectedCustomer:{
+      
     }
   }
   changeState (stateName , value) {
@@ -58,8 +62,9 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={Login}/>
           <Route exact path='/register' component={Register}/>
-          <Route exact path='/home' component={CustomerList}/>
+          <Route exact path='/home' render = {(props)=><CustomerList {...props} changeState= {this.changeState.bind(this)}/>} />
           <Route path='/addcustomer' component={AddCustomer}/>
+          <Route path='/updatecustomer'   render = {(props)=><UpdateCustomer {...props} selectedCustomer={this.state.selectedCustomer}/>}/>
           <Route path='/addloan/:customerId' component={AddLoan}/>
           <Route path='/viewinstallment/:loanId'  render = {(props)=><ViewInstallment {...props} loanDetail={this.state.singleLoanDetail}/>} />
           <Route path='/collection/:loanId' render = {(props)=><DailyCollection {...props} loanDetail={this.state.singleLoanDetail}/>} />

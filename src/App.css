@@ -35,11 +35,14 @@ margin-left: auto;
   font-size: 18px;
   margin-bottom: 0;
 }
+
 .list_view h4 span {
   font-weight: normal;
   font-size: 14px;
   color: #969696;
   text-transform: capitalize;
+  line-height: 18px;
+  display: block;
 }
 .list_link {
   padding: 8px 6px;
